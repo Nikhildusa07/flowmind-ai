@@ -1,26 +1,36 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
-from sqlalchemy.engine import URL
 
 from app.core.config import settings
 
 
-database_url = URL.create(
-    drivername="postgresql+psycopg2",
-    username=settings.DATABASE_USER,
-    password=settings.DATABASE_PASSWORD,
-    host=settings.DATABASE_HOST,
-    port=settings.DATABASE_PORT,
-    database=settings.DATABASE_NAME,
-)
+# ============================================================
+# DATABASE CONFIGURATION
+# ============================================================
+#
+# Local / Render deployment uses SQLite.
+# SQLite does not require a separate database server.
+#
 
+DATABASE_URL = "sqlite:///./flowmind.db"
+
+
+# ============================================================
+# ENGINE
+# ============================================================
 
 engine = create_engine(
-    database_url,
-    pool_pre_ping=True,
+    DATABASE_URL,
+    connect_args={
+        "check_same_thread": False,
+    },
     echo=False,
 )
 
+
+# ============================================================
+# SESSION
+# ============================================================
 
 SessionLocal = sessionmaker(
     bind=engine,
@@ -29,9 +39,17 @@ SessionLocal = sessionmaker(
 )
 
 
+# ============================================================
+# BASE MODEL
+# ============================================================
+
 class Base(DeclarativeBase):
     pass
 
+
+# ============================================================
+# DATABASE DEPENDENCY
+# ============================================================
 
 def get_db():
     db = SessionLocal()
@@ -42,10 +60,16 @@ def get_db():
         db.close()
 
 
+# ============================================================
+# DATABASE CONNECTION TEST
+# ============================================================
+
 def test_database_connection() -> bool:
     try:
         with engine.connect() as connection:
             connection.execute(text("SELECT 1"))
+
         return True
+
     except Exception:
         return False

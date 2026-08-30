@@ -34,13 +34,13 @@ app = FastAPI(
 # ============================================================
 # CORS
 # ============================================================
+from fastapi.middleware.cors import CORSMiddleware
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "https://flowmind-oj7ogkg71-nikhilusa07.vercel.app",
         "https://flowmind-ai-lime.vercel.app",
+        "https://flowmind-22wh8lnl-nikhilusa07.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],

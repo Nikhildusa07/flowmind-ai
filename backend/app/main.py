@@ -37,15 +37,11 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://flowmind-ai-lime.vercel.app",
-    ],
-    allow_origin_regex=r"https://flowmind-[a-z0-9]+-nikhilusa07\.vercel\.app",
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # ============================================================
 # ROUTES
 # ============================================================

@@ -22,7 +22,7 @@ router = APIRouter(
     response_model=AIChatResponse,
     status_code=status.HTTP_200_OK,
 )
-def chat_with_ai(
+async def chat_with_ai(
     request: AIChatRequest,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
@@ -67,7 +67,7 @@ def chat_with_ai(
     conversation_context = ""
 
     if messages:
-        context_messages = messages[-10:]
+        context_messages = messages[-6:]
 
         conversation_context = "\n".join(
             [
@@ -77,10 +77,16 @@ def chat_with_ai(
             ]
         )
 
-    result = generate_assistant_response(
-        message=request.message,
-        conversation_context=conversation_context,
-    )
+    try:
+        result = await generate_assistant_response(
+            message=request.message,
+            conversation_context=conversation_context,
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"AI assistant failed: {str(exc)}",
+        )
 
     if not result["success"]:
         raise HTTPException(

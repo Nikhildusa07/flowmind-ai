@@ -1,3 +1,4 @@
+import asyncio
 from typing import Any
 
 from google import genai
@@ -211,19 +212,6 @@ Document:
 def analyze_request(
     request_text: str,
 ) -> dict:
-    """
-    Analyze a business request using Gemini.
-
-    Returns a normalized structure containing:
-
-    - success
-    - intent
-    - priority
-    - confidence
-    - confidence_score
-    - summary
-    - analysis_source
-    """
 
     prompt = f"""
 Analyze the following business request.
@@ -279,10 +267,6 @@ SUMMARY:
             ),
         )
 
-        # ----------------------------------------------------
-        # Parse Gemini response
-        # ----------------------------------------------------
-
         intent = _extract_value(
             response_text,
             "INTENT:",
@@ -307,10 +291,6 @@ SUMMARY:
             None,
         )
 
-        # ----------------------------------------------------
-        # Validate priority
-        # ----------------------------------------------------
-
         if priority not in {
             "LOW",
             "MEDIUM",
@@ -319,17 +299,9 @@ SUMMARY:
         }:
             priority = "MEDIUM"
 
-        # ----------------------------------------------------
-        # Parse confidence
-        # ----------------------------------------------------
-
         confidence = _safe_confidence(
             confidence_text
         )
-
-        # ----------------------------------------------------
-        # Validate required AI fields
-        # ----------------------------------------------------
 
         if not intent:
             raise ValueError(
@@ -338,12 +310,6 @@ SUMMARY:
 
         if not summary:
             summary = request_text[:500]
-
-        # ----------------------------------------------------
-        # IMPORTANT:
-        # Return BOTH confidence names so the API layer
-        # remains compatible with existing code.
-        # ----------------------------------------------------
 
         return {
             "success": True,
@@ -379,12 +345,15 @@ SUMMARY:
 # ============================================================
 
 
-def generate_assistant_response(
+async def generate_assistant_response(
     message: str,
     conversation_context: str = "",
 ) -> dict:
     """
     Generate a response for the FlowMind AI assistant.
+
+    Gemini runs in a background thread so the FastAPI
+    event loop is not blocked while waiting for Gemini.
     """
 
     prompt = f"""
@@ -415,12 +384,14 @@ Instructions:
 - Keep the response concise and professional.
 - Use clear headings and bullet points when useful.
 - Format the response cleanly for a web chat interface.
+- Do not provide unnecessary explanations.
 """
 
     try:
 
-        response = ai_service.generate_text(
-            prompt
+        response = await asyncio.to_thread(
+            ai_service.generate_text,
+            prompt,
         )
 
         return {

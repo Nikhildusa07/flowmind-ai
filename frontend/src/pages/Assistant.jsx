@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://flowmind-ai-14ng.onrender.com";
 const TOKEN_KEY = "flowmind_access_token";
 
 const SUGGESTED_PROMPTS = [

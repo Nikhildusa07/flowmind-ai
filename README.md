@@ -1,230 +1,398 @@
-FlowMind AI
+# FlowMind AI
 
-AI-Powered Business Operations Automation System
+### AI-Powered Business Operations Automation System
 
-FlowMind AI is a full-stack business automation platform that transforms
-incoming business requests and documents into structured, AI-assisted
-operational workflows.
+FlowMind AI is a full-stack business automation platform designed to turn business requests and documents into structured, AI-assisted operational workflows.
 
-It combines a React/Vite frontend with a FastAPI backend, authenticated
-API access, AI-powered analysis, document intelligence, workflow
-execution, human-in-the-loop review, operational analytics, monitoring,
-and activity tracking.
+The platform combines **React + Vite**, **FastAPI**, **PostgreSQL**, and **Gemini-based AI** to provide request automation, document intelligence, workflow execution, human-in-the-loop review, analytics, monitoring, and conversational AI assistance.
 
-Features
+---
 
-Business Request Automation
+## Overview
 
-Create and process business requests.
+FlowMind AI follows a controlled automation model:
 
-AI-powered intent, priority, confidence, and summary analysis.
+> **Automate routine work. Escalate uncertain or high-risk work. Keep humans in control of critical decisions.**
 
-Automated execution for eligible low-risk requests.
+A business request can be analyzed by AI, assigned an intent, priority, confidence score, and summary, and then routed through either automated execution or human review.
 
-Human review routing for uncertain or high-risk requests.
-
-Request history and processing results.
-
-AI Assistant
-
-Natural-language business automation assistant.
-
-Guidance for workflows, documents, analytics, tasks, and operations.
-
-Suggested prompts.
-
-Multi-message conversations.
-
-Markdown-formatted AI responses.
-
-Loading, error, and authentication handling.
-
-Conversation clearing.
-
-Document Intelligence
-
-PDF/business document upload.
-
-AI-assisted document analysis.
-
-Structured information extraction.
-
-Document summaries and operational insights.
-
-Processing status tracking.
-
-Human-in-the-Loop Review
-
-Pending review queue.
-
-Request context, intent, priority, confidence, and review reason.
-
-Reviewer notes.
-
-Approve and execute.
-
-Reject with mandatory notes.
-
-Automatic queue refresh after decisions.
-
-Workflow Automation
-
-Workflow creation and configuration.
-
-Configurable workflow steps.
-
-Manual workflow execution.
-
-Execution history.
-
-Workflow status and version tracking.
-
-Analytics
-
-Workflow execution metrics.
-
-Completed task metrics.
-
-Document processing metrics.
-
-Automation log metrics.
-
-Success, running, and failed execution counts.
-
-Time-range based analytics.
-
-Monitoring
-
-Today's execution activity.
-
-Completed, running, and failed task counts.
-
-Document and log activity.
-
-API server status.
-
-Analytics status.
-
-Database status.
-
-Overall system health.
-
-Architecture
-
-+-----------------------------+
-|        React Frontend       |
-|          Vite               |
-+-------------+---------------+
-              |
-              | HTTP / JSON
-              | Bearer Token
-              v
-+-----------------------------+
-|       FastAPI Backend       |
-+-----------------------------+
-| Authentication API          |
-| AI API                      |
-| Requests API                |
-| Workflows API               |
-| Documents API               |
-| Reviews API                 |
-| Analytics                   |
-+-------------+---------------+
-              |
-        +-----+-----+
-        |           |
-        v           v
-+-------------+ +----------------+
-| PostgreSQL  | | Gemini / AI     |
-|  Database   | | Integration    |
-+-------------+ +----------------+
-
-Application Flow
-
-Business Request
-       |
-       v
-Request Validation
-       |
-       v
-AI Analysis
-       |
-       +----------------------+
-       |                      |
-       v                      v
-High Confidence          High Risk /
-Low Risk                 Low Confidence
-       |                      |
-       v                      v
-Automated Execution      Human Review
+```text
+                    Business Request
+                           |
+                           v
+                  Request Validation
+                           |
+                           v
+                      AI Analysis
+                           |
+                +----------+----------+
+                |                     |
+                v                     v
+        High Confidence          High Risk /
+        Low Risk                 Low Confidence
+                |                     |
+                v                     v
+       Automated Execution      Human Review
+                                      |
+                              +-------+-------+
+                              |               |
+                           Approve          Reject
+                              |               |
+                              v               v
+                          Completed        Rejected
                               |
-                         +----+----+
-                         |         |
-                      Approve    Reject
-                         |         |
-                         v         v
-                     Completed  Rejected
-                         |
-                         v
-                 Analytics / Monitoring
+                              v
+                    Analytics / Monitoring
+```
 
-The core principle is:
+---
 
-Automate routine work while routing uncertain or high-risk work to a
-human reviewer.
+## Key Features
 
-Technology Stack
+### Business Request Automation
 
-Frontend
+- Create and process business requests.
+- AI-powered intent classification.
+- Priority classification.
+- Confidence scoring.
+- AI-generated request summaries.
+- Automated execution for eligible low-risk requests.
+- Human-review escalation for uncertain or high-risk requests.
+- Request processing results and history.
 
-React
+### AI Assistant
 
-Vite
+- Natural-language business automation assistant.
+- Workflow and process guidance.
+- Business document and analytics guidance.
+- Suggested prompts.
+- Multi-message conversations.
+- Markdown-formatted AI responses.
+- Loading and error handling.
+- Authentication handling.
+- Conversation clearing.
 
-React Router
+### Document Intelligence
 
-JavaScript / JSX
+- PDF/business document upload.
+- AI-assisted document analysis.
+- Structured information extraction.
+- Document summaries.
+- Operational insights.
+- Processing status tracking.
 
-CSS
+### Human-in-the-Loop Review
 
-Backend
+- Pending review queue.
+- Request context and AI analysis.
+- Intent, priority, confidence, and review reason.
+- Reviewer notes.
+- Approve and execute.
+- Reject with mandatory notes.
+- Automatic queue refresh after decisions.
 
-Python
+### Workflow Automation
 
-FastAPI
+- Workflow creation and configuration.
+- Configurable workflow steps.
+- Manual workflow execution.
+- Execution history.
+- Workflow version tracking.
+- Active/inactive workflow status.
 
-Pydantic
+### Analytics
 
-SQLAlchemy
+- Workflow execution metrics.
+- Completed task metrics.
+- Document processing metrics.
+- Automation log metrics.
+- Success, running, and failed execution counts.
+- Time-range based operational metrics.
 
-PostgreSQL
+### Monitoring
 
-FastAPI CORS middleware
+- Today's execution activity.
+- Completed, running, and failed task counts.
+- Document activity.
+- Log activity.
+- API server health.
+- Analytics health.
+- Database health.
+- Overall system status.
 
-AI
+---
 
-Gemini-based AI integration
+## Technology Stack
 
-Natural-language analysis
+| Layer | Technology |
+|---|---|
+| Frontend | React, Vite, React Router, JavaScript/JSX, CSS |
+| Backend | Python, FastAPI, Pydantic, SQLAlchemy |
+| Database | PostgreSQL |
+| AI | Gemini-based AI integration |
+| API | REST / HTTP JSON |
+| Authentication | Bearer Token Authentication |
+| Development | Git, GitHub, VS Code, Uvicorn |
 
-Request classification
+---
 
-Document intelligence
+## System Architecture
 
-AI Assistant responses
+```text
++--------------------------------------------------+
+|                  FLOWMIND AI                     |
++--------------------------------------------------+
 
-Development
+                 React + Vite
+                      |
+                      | HTTP / JSON
+                      | Bearer Token
+                      v
+              +------------------+
+              |  FastAPI Backend  |
+              +------------------+
+              | Authentication   |
+              | AI               |
+              | Requests         |
+              | Workflows        |
+              | Documents       |
+              | Reviews          |
+              | Analytics        |
+              +--------+---------+
+                       |
+              +--------+---------+
+              |                  |
+              v                  v
+       +-------------+    +---------------+
+       | PostgreSQL  |    | Gemini / AI   |
+       |  Database   |    | Integration   |
+       +-------------+    +---------------+
+```
 
-Git / GitHub
+---
 
-VS Code
+## Application Modules
 
-Vite
+| Module | Purpose |
+|---|---|
+| Authentication | Login, access tokens, and protected routes |
+| Requests | Business request creation, AI analysis, decisions, execution, and history |
+| Workflows | Workflow configuration, steps, execution, and history |
+| Documents | Upload and AI-assisted document analysis |
+| Human Review | Approval and rejection of escalated requests |
+| Analytics | Historical operational metrics |
+| Monitoring | Current activity and service health |
+| AI Assistant | Conversational business automation guidance |
 
-Uvicorn
+---
 
-Project Structure
+## Business Request Decision Engine
 
+FlowMind AI separates routine automation from requests that require human oversight.
+
+### Automated Path
+
+A typical low-risk request can produce:
+
+```text
+Intent: Request Invoice Copy
+Priority: LOW
+Confidence: 0.98
+Decision: AUTOMATE
+Action: AUTO_EXECUTE
+Human Approval: Not Required
+Status: SUCCESS
+```
+
+### Human Review Path
+
+A sensitive or high-risk request can produce:
+
+```text
+Intent: Report Unauthorized Account Access
+Priority: URGENT
+Confidence: 0.98
+Decision: ESCALATE
+Action: HUMAN_REVIEW
+Human Approval: Required
+Status: PENDING_REVIEW
+```
+
+This provides a controlled boundary between AI analysis and automated business execution.
+
+---
+
+## Human Review
+
+Requests that require human intervention appear in the Human Review queue with information such as:
+
+- Request ID
+- Customer
+- Request content
+- Intent
+- Priority
+- Confidence score
+- Review reason
+
+### Approve
+
+The reviewer can approve an eligible request and allow the configured processing path to execute.
+
+### Reject
+
+The reviewer can reject a request by providing review notes. The decision is recorded as rejected.
+
+This human-in-the-loop model helps prevent uncertain or sensitive requests from being executed without appropriate oversight.
+
+---
+
+## Document Intelligence
+
+FlowMind AI can analyze business documents such as invoices.
+
+### Example
+
+```text
+Filename: sample_invoice.pdf
+File Type: PDF
+Status: processed
+```
+
+Example extracted information:
+
+```text
+Invoice: INV-2026-002
+Vendor: XQORA Supplies
+Issue Date: August 17, 2026
+Base Amount: 75,000
+Tax: 13,500
+Total Liability: 88,500
+Due Date: August 30, 2026
+```
+
+The analysis can additionally produce operational insights such as payment-window observations, financial obligations, and tax calculations.
+
+---
+
+## Workflow Automation
+
+A configured workflow can contain multiple business-processing steps.
+
+Example:
+
+```text
+1. Receive Business Request
+              |
+              v
+2. AI Analysis
+              |
+              v
+3. Business Decision
+              |
+              v
+4. Complete Automation
+              |
+              v
+5. Validation / Additional Processing
+```
+
+The workflow interface provides:
+
+- Active/inactive status.
+- Workflow version.
+- Configured steps.
+- Manual execution.
+- Execution history.
+- Completion status.
+
+---
+
+## AI Assistant
+
+The AI Assistant provides a conversational interface for questions related to:
+
+- Business automation.
+- Workflow design.
+- Document processing.
+- Analytics.
+- Monitoring.
+- Operational decisions.
+
+Example prompt:
+
+```text
+How can I automate repetitive business tasks?
+```
+
+The assistant can provide structured workflow recommendations, decision logic, automation opportunities, and practical implementation guidance.
+
+---
+
+## Analytics & Monitoring
+
+### Analytics
+
+Analytics provides historical operational information including:
+
+- Total workflow executions.
+- Completed tasks.
+- Documents processed.
+- Automation logs.
+- Success rate.
+- Running executions.
+- Failed executions.
+- Time-range metrics.
+
+### Monitoring
+
+Monitoring focuses on current system activity:
+
+- Executions today.
+- Completed tasks.
+- Running tasks.
+- Failed tasks.
+- Documents.
+- Logs today.
+- API server status.
+- Analytics status.
+- Database status.
+- Overall system health.
+
+---
+
+## API Overview
+
+The backend exposes REST APIs for:
+
+```text
+/auth
+/ai
+/requests
+/workflows
+/documents
+/reviews
+/analytics
+```
+
+Health endpoints:
+
+```text
+/
+ /health
+```
+
+When running locally, FastAPI documentation is available at:
+
+```text
+http://127.0.0.1:8000/docs
+http://127.0.0.1:8000/redoc
+```
+
+---
+
+## Project Structure
+
+```text
 FlowMind AI/
 │
 ├── backend/
@@ -247,621 +415,401 @@ FlowMind AI/
 ├── screenshots/
 │
 ├── README.md
-│
-└── requirements.txt
+├── requirements.txt
+└── .gitignore
+```
 
-Core Modules
+---
 
-Authentication
+## Prerequisites
 
-The frontend obtains an access token during login and uses it for
-protected API requests:
+Install the following before running the project:
 
-Authorization: Bearer <access_token>
+- Python 3.10+
+- Node.js 18+
+- npm
+- PostgreSQL
+- Git
 
-Protected routes redirect unauthenticated users to the login page.
+Verify installations:
 
-Requests
-
-Handles business request creation, AI analysis, decision processing,
-execution results, and request history.
-
-Workflows
-
-Provides workflow configuration, workflow steps, manual execution, and
-execution history.
-
-Documents
-
-Provides document upload and AI-assisted document processing.
-
-Reviews
-
-Provides human-in-the-loop approval and rejection for requests requiring
-manual decisions.
-
-Analytics
-
-Provides aggregated operational metrics for a selected time period.
-
-Monitoring
-
-Provides current operational activity and service health information.
-
-AI Assistant
-
-Provides an interactive natural-language interface to the AI service.
-
-Business Request Automation
-
-A successful low-risk request can produce information such as:
-
-Intent: Request Invoice Copy
-Priority: LOW
-Confidence: 0.98
-Decision: AUTOMATE
-Action: AUTO_EXECUTE
-Human Approval: Not Required
-Status: SUCCESS
-
-A request requiring human intervention can produce:
-
-Intent: Report Unauthorized Account Access
-Priority: URGENT
-Confidence: 0.98
-Decision: ESCALATE
-Action: HUMAN_REVIEW
-Human Approval: Required
-Status: PENDING_REVIEW
-
-This ensures that routine requests can be processed automatically while
-sensitive or high-risk requests receive human oversight.
-
-Human Review
-
-The Human Review interface displays pending requests together with:
-
-Request ID
-
-Customer
-
-Intent
-
-Priority
-
-Confidence score
-
-Request content
-
-Review reason
-
-Approve
-
-The reviewer can approve a request and allow the configured automated
-processing path to execute.
-
-Reject
-
-The reviewer can reject a request after providing review notes. The
-request is then recorded as rejected.
-
-Document Intelligence
-
-FlowMind AI can process business PDFs such as invoices.
-
-Example:
-
-Filename: sample_invoice.pdf
-File Type: PDF
-Status: processed
-
-Summary:
-Pending invoice INV-2026-002 from XQORA Supplies
-issued on August 17, 2026, with a base amount of
-75,000 plus 13,500 tax.
-
-Total Liability:
-88,500
-
-Due Date:
-August 30, 2026
-
-The document analysis can also produce operational insights such as
-payment-window observations, financial obligations, and tax
-calculations.
-
-Workflow Automation
-
-A workflow can contain multiple configured business-processing steps.
-
-Example:
-
-1. Receive Business Request
-            |
-            v
-2. AI Analysis
-            |
-            v
-3. Business Decision
-            |
-            v
-4. Complete Automation
-            |
-            v
-5. Validation / Additional Processing
-
-The workflow interface provides:
-
-Active/inactive status
-
-Workflow version
-
-Configured steps
-
-Manual execution
-
-Execution history
-
-Completion status
-
-Analytics and Monitoring
-
-Analytics
-
-Analytics provides historical information such as:
-
-Workflow executions
-
-Completed tasks
-
-Documents processed
-
-Automation logs
-
-Success rate
-
-Running executions
-
-Failed executions
-
-Monitoring
-
-Monitoring focuses on current activity:
-
-Executions today
-
-Completed tasks
-
-Documents
-
-Logs today
-
-Running tasks
-
-Failed tasks
-
-API server health
-
-Analytics health
-
-Database health
-
-Overall system status
-
-API Overview
-
-The FastAPI backend provides REST APIs for:
-
-/auth
-/ai
-/workflows
-/documents
-/requests
-/reviews
-/analytics
-
-Health endpoints:
-
-/
- /health
-
-FastAPI also provides interactive API documentation during development:
-
-<http://127.0.0.1:8000/docs>
-<http://127.0.0.1:8000/redoc>
-
-Environment Configuration
-
-Create a local .env file for environment-specific configuration.
-
-Example:
-
-DATABASE_URL=your_database_connection_string
-SECRET_KEY=your_secret_key
-GEMINI_API_KEY=your_gemini_api_key
-
-Use the exact environment variable names required by the backend
-configuration.
-
-Never commit real credentials or API keys to GitHub.
-
-Recommended repository setup:
-
-.env              -> local only
-.env.example      -> safe template for GitHub
-
-Local Development
-
-Prerequisites
-
-Install:
-
-Python 3.10+
-
-Node.js 18+
-
-npm
-
-PostgreSQL
-
-Git
-
-Verify:
-
+```bash
 python --version
 node --version
 npm --version
 git --version
+```
 
-Backend Setup
+---
 
-Open a terminal in the backend directory.
+## Environment Configuration
 
-Create virtual environment
+Create a local `.env` file for environment-specific configuration.
 
-Windows:
+Example:
 
+```env
+DATABASE_URL=your_database_connection_string
+SECRET_KEY=your_secret_key
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+Use the exact environment variable names required by the backend configuration.
+
+### Important
+
+Do **not** commit:
+
+```text
+.env
+API keys
+Passwords
+Access tokens
+Production secrets
+```
+
+For GitHub, use a safe template such as:
+
+```text
+.env.example
+```
+
+---
+
+## Local Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Nikhildusa07/flowmind-ai.git
+cd flowmind-ai
+```
+
+### 2. Backend Setup
+
+Open a terminal in the `backend` directory:
+
+```powershell
+cd backend
+```
+
+Create a virtual environment:
+
+```powershell
 python -m venv venv
+```
 
-Activate:
+Activate it on Windows:
 
+```powershell
 venv\Scripts\activate
+```
 
-Install dependencies
+Install dependencies:
 
-If requirements.txt is in the project root:
-
+```powershell
 pip install -r ../requirements.txt
+```
 
-Or, if copied into the backend directory:
+Configure the local `.env` file.
 
-pip install -r requirements.txt
+Start the FastAPI server:
 
-Configure environment variables
-
-Create the local .env file and configure the database, authentication,
-and AI settings.
-
-Start FastAPI
-
-For the standard application entry point:
-
+```powershell
 uvicorn app.main:app --reload
+```
 
 Backend:
 
-<http://127.0.0.1:8000>
+```text
+http://127.0.0.1:8000
+```
 
-Frontend Setup
+### 3. Frontend Setup
 
-Open another terminal in the frontend directory.
+Open a second terminal:
 
-Install dependencies
+```powershell
+cd frontend
+```
 
+Install dependencies:
+
+```powershell
 npm install
+```
 
-Start Vite
+Start the development server:
 
+```powershell
 npm run dev
+```
 
 Frontend:
 
-<http://localhost:5173>
+```text
+http://localhost:5173
+```
+
+---
+
+## Authentication
 
-The frontend communicates with the configured FastAPI backend.
+Protected API requests use Bearer Token authentication:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+The frontend uses the authenticated token for protected backend operations.
+
+Unauthenticated access is handled by redirecting users to the login page where required.
+
+---
+
+## Testing
+
+The application has been tested across the major end-to-end operational flows.
+
+### Functional Testing
+
+- [x] Registration
+- [x] Login
+- [x] Protected routes
+- [x] Business request creation
+- [x] AI request analysis
+- [x] Automated execution
+- [x] Human-review escalation
+- [x] Human approval
+- [x] Human rejection
+- [x] Document upload
+- [x] Document processing
+- [x] AI Assistant
+- [x] Workflow configuration
+- [x] Workflow execution
+- [x] Execution history
+- [x] Analytics
+- [x] Monitoring
+- [x] Refresh operations
+- [x] Error handling
 
-Testing
+### AI Testing
 
-The complete application should be validated across the following areas.
+The AI functionality was evaluated for:
 
-Functional Testing
+- Intent classification.
+- Priority classification.
+- Confidence behavior.
+- Business-request understanding.
+- Document understanding.
+- Response quality.
+- Ambiguous requests.
+- High-risk requests.
+- Low-confidence requests.
 
-Registration
+### Failure Testing
 
-Login
+Important failure scenarios include:
 
-Protected routes
+- Invalid login.
+- Missing authentication.
+- Invalid request input.
+- Backend unavailable.
+- AI service failure.
+- Invalid document.
+- Review action failure.
+- Workflow execution failure.
 
-Business request creation
+---
 
-AI request analysis
+## Security
 
-Automated execution
+Before production deployment:
 
-Human review escalation
+- Never commit `.env`.
+- Never commit API keys or passwords.
+- Use `.env.example`.
+- Restrict production CORS origins.
+- Use HTTPS.
+- Use strong production secrets.
+- Apply appropriate database permissions.
+- Validate uploaded document type and size.
+- Keep development credentials separate from production credentials.
+- Verify protected endpoints reject unauthenticated requests.
 
-Human approval
+---
 
-Human rejection
+## Production Checklist
 
-Document upload
+### Repository
 
-Document processing
+- [ ] Remove unnecessary files.
+- [ ] Remove unused generated files.
+- [ ] Remove `.env`.
+- [ ] Add `.env.example`.
+- [ ] Verify `.gitignore`.
+- [ ] Scan repository for secrets.
+- [ ] Verify README setup instructions.
 
-AI Assistant
+### Backend
 
-Workflow configuration
+- [ ] Configure production database.
+- [ ] Configure production secrets.
+- [ ] Configure trusted CORS origins.
+- [ ] Verify authentication.
+- [ ] Verify AI integration.
+- [ ] Verify document processing.
+- [ ] Verify health endpoints.
 
-Workflow execution
+### Frontend
 
-Execution history
+- [ ] Configure production API URL.
+- [ ] Verify all routes.
+- [ ] Verify authentication redirects.
+- [ ] Verify error states.
+- [ ] Verify responsive behavior.
+- [ ] Run the production build successfully.
 
-Analytics
+---
 
-Monitoring
+## Demonstration Flow
 
-Refresh operations
+A complete project demonstration can follow this sequence:
 
-Error handling
-
-AI Testing
-
-Evaluate:
-
-Intent classification
-
-Priority classification
-
-Confidence behavior
-
-Business-request understanding
-
-Document understanding
-
-Response quality
-
-Ambiguous requests
-
-High-risk requests
-
-Low-confidence requests
-
-Security Testing
-
-Verify:
-
-Protected endpoints reject unauthenticated access.
-
-Invalid authentication is handled.
-
-Secrets are not exposed in frontend code.
-
-Production credentials are not committed.
-
-Uploaded files follow application validation rules.
-
-Failure Testing
-
-Test scenarios such as:
-
-Invalid login
-
-Missing authentication
-
-Invalid request input
-
-Backend unavailable
-
-AI service failure
-
-Invalid document
-
-Review action failure
-
-Workflow execution failure
-
-Each failure should produce a clear user-facing result and leave the
-application in a recoverable state.
-
-Security
-
-Before deployment:
-
-Never commit .env.
-
-Never commit API keys or passwords.
-
-Use .env.example.
-
-Restrict production CORS origins.
-
-Use HTTPS.
-
-Use strong production secrets.
-
-Apply appropriate database permissions.
-
-Validate document type and size.
-
-Keep development credentials separate from production credentials.
-
-Production Checklist
-
-Repository
-
-Remove unnecessary files.
-
-Remove unused generated files.
-
-Remove .env.
-
-Add .env.example.
-
-Check .gitignore.
-
-Confirm no secrets are committed.
-
-Verify README setup instructions.
-
-Backend
-
-Configure production database.
-
-Configure production secrets.
-
-Configure trusted CORS origins.
-
-Verify authentication.
-
-Verify AI integration.
-
-Verify document processing.
-
-Verify health endpoint.
-
-Frontend
-
-Configure production API URL.
-
-Verify all routes.
-
-Verify authentication redirects.
-
-Verify error states.
-
-Verify responsive behavior.
-
-Run the production build successfully.
-
-Demonstration
-
+```text
 Dashboard
+   |
+   v
+Create Business Request
+   |
+   v
+AI Analysis
+   |
+   +-------------------------+
+   |                         |
+   v                         v
+Automated Request       Human Review
+   |                         |
+   v                    +----+----+
+Completed               |         |
+                     Approve    Reject
+                        |         |
+                        v         v
+                    Completed   Rejected
+                        |
+                        v
+                Upload Document
+                        |
+                        v
+                Document Analysis
+                        |
+                        v
+                Configure Workflow
+                        |
+                        v
+                Execute Workflow
+                        |
+                        v
+                Execution History
+                        |
+                        v
+                   Analytics
+                        |
+                        v
+                   Monitoring
+                        |
+                        v
+                  AI Assistant
+```
 
-Requests
+---
 
-AI Assistant
+## Screenshots
 
-Documents
+The repository contains application screenshots under:
 
-Human Review
-
-Workflow execution
-
-Analytics
-
-Monitoring
-
-Successful automated request
-
-Human-review request
-
-Approval
-
-Rejection
-
-Screenshots
-
-The screenshots/ directory contains visual evidence of the implemented
-application.
-
-Recommended evidence:
-
+```text
 screenshots/
-├── dashboard
-├── requests
-├── ai-assistant
-├── documents
-├── human-review
-├── workflows
-├── analytics
-└── monitoring
+```
 
-Project Status
+Recommended screenshot categories:
 
-The current implementation includes the major operational application
-flow:
+```text
+screenshots/
+├── dashboard/
+├── requests/
+├── ai-assistant/
+├── documents/
+├── human-review/
+├── workflows/
+├── analytics/
+└── monitoring/
+```
 
-Authentication
+Screenshots provide visual evidence of the implemented application modules and end-to-end workflows.
 
-Protected routes
+---
 
-Dashboard
+## Project Status
 
-Business requests
+**Status: Completed and functionally tested**
 
-AI Assistant
+The current implementation includes:
 
-Document processing
+- Authentication and protected routes.
+- Dashboard.
+- Business request automation.
+- AI-powered request analysis.
+- Automated request execution.
+- Human-in-the-loop review.
+- Approve/reject processing.
+- Document intelligence.
+- AI Assistant.
+- Workflow management.
+- Workflow execution history.
+- Analytics.
+- Monitoring.
+- Backend health checks.
+- PostgreSQL-backed application data.
+- Gemini-based AI integration.
 
-Human Review
+The primary end-to-end application flows have been tested during development.
 
-Workflow management
+---
 
-Workflow execution history
-
-Analytics
-
-Monitoring
-
-Backend health checks
-
-PostgreSQL-backed application data
-
-AI service integration
-
-The main end-to-end functional flows have been tested during
-development.
-
-Future Enhancements
+## Future Enhancements
 
 Potential future improvements include:
 
-Email integrations
+- Email integrations.
+- Slack and Microsoft Teams notifications.
+- Scheduled workflow execution.
+- Role-based access control.
+- Advanced workflow branching.
+- Real-time monitoring.
+- Exportable analytics reports.
+- Advanced OCR pipelines.
+- Multiple AI model providers.
+- Background workers and queues.
+- CI/CD deployment.
+- Expanded automated test coverage.
 
-Slack and Microsoft Teams notifications
+---
 
-Scheduled workflow execution
+## Author
 
-Role-based access control
+**Nikhil Dusa**
 
-Advanced workflow branching
-
-Real-time monitoring
-
-Exportable analytics reports
-
-More advanced OCR pipelines
-
-Multiple AI model providers
-
-Background workers and queues
-
-CI/CD deployment
-
-Expanded automated test coverage
-
-Author
-
-Nikhil Dusa
-
-FlowMind AI
+**FlowMind AI**  
 AI-Powered Business Operations Automation System
 
-Conclusion
+---
 
-FlowMind AI demonstrates a controlled approach to AI-powered business
-automation by combining:
+## Conclusion
 
+FlowMind AI demonstrates a controlled approach to AI-powered business automation by combining:
+
+```text
 AI Analysis
      +
 Business Rules
@@ -873,9 +821,12 @@ Human Review
 Operational Monitoring
      +
 Activity Tracking
+```
 
-The platform is designed to automate routine business operations
-efficiently while maintaining human oversight for uncertain, sensitive,
-or high-risk decisions.
-#   f l o w m i n d - a i  
- 
+The platform is designed to automate routine business operations efficiently while maintaining human oversight for uncertain, sensitive, or high-risk decisions.
+
+---
+
+## License
+
+This project was developed for demonstration, development, and evaluation of AI-powered business operations automation.
